@@ -12,7 +12,7 @@ events:
       - "CMakeLists.txt:4 (find_package)"
     message: |
       The target system is: Generic - 4.4.99 - riscv
-      The host system is: Linux - 6.14.0-37-generic - x86_64
+      The host system is: Linux - 6.17.0-20-generic - x86_64
   -
     kind: "message-v1"
     backtrace:
@@ -94,8 +94,8 @@ events:
     checks:
       - "Performing Test C_COMPILER_SUPPORTS_WFORMAT_SIGNEDNESS"
     directories:
-      source: "/home/g/zephyrproject/zephyr/samples/ESP32_C3_SCD41/build/CMakeFiles/CMakeScratch/TryCompile-fv2uay"
-      binary: "/home/g/zephyrproject/zephyr/samples/ESP32_C3_SCD41/build/CMakeFiles/CMakeScratch/TryCompile-fv2uay"
+      source: "/home/g/zephyrproject/zephyr/samples/ESP32_C3_SCD41/build/CMakeFiles/CMakeScratch/TryCompile-Z47Dl9"
+      binary: "/home/g/zephyrproject/zephyr/samples/ESP32_C3_SCD41/build/CMakeFiles/CMakeScratch/TryCompile-Z47Dl9"
     cmakeVariables:
       CMAKE_C_FLAGS: ""
       CMAKE_C_FLAGS_DEBUG: "-g"
@@ -105,11 +105,11 @@ events:
       variable: "C_COMPILER_SUPPORTS_WFORMAT_SIGNEDNESS"
       cached: true
       stdout: |
-        Change Dir: '/home/g/zephyrproject/zephyr/samples/ESP32_C3_SCD41/build/CMakeFiles/CMakeScratch/TryCompile-fv2uay'
+        Change Dir: '/home/g/zephyrproject/zephyr/samples/ESP32_C3_SCD41/build/CMakeFiles/CMakeScratch/TryCompile-Z47Dl9'
         
-        Run Build Command(s): /usr/bin/ninja -v cmTC_55be0
-        [1/2] /home/g/zephyr-sdk-1.0.1/gnu/riscv64-zephyr-elf/bin/riscv64-zephyr-elf-gcc -DC_COMPILER_SUPPORTS_WFORMAT_SIGNEDNESS  -nostartfiles -nostdlib -isystem "/home/g/zephyr-sdk-1.0.1/gnu/riscv64-zephyr-elf/bin/../lib/gcc/riscv64-zephyr-elf/14.3.0/include" -isystem "/home/g/zephyr-sdk-1.0.1/gnu/riscv64-zephyr-elf/bin/../lib/gcc/riscv64-zephyr-elf/14.3.0/include" -Wl,--unresolved-symbols=ignore-in-object-files -Wl,--entry=0 -fuse-ld=bfd -std=c99   -Wformat-signedness -o CMakeFiles/cmTC_55be0.dir/src.c.obj -c /home/g/zephyrproject/zephyr/samples/ESP32_C3_SCD41/build/CMakeFiles/CMakeScratch/TryCompile-fv2uay/src.c
-        [2/2] : && /home/g/zephyr-sdk-1.0.1/gnu/riscv64-zephyr-elf/bin/riscv64-zephyr-elf-gcc -nostartfiles -nostdlib -isystem "/home/g/zephyr-sdk-1.0.1/gnu/riscv64-zephyr-elf/bin/../lib/gcc/riscv64-zephyr-elf/14.3.0/include" -isystem "/home/g/zephyr-sdk-1.0.1/gnu/riscv64-zephyr-elf/bin/../lib/gcc/riscv64-zephyr-elf/14.3.0/include" -Wl,--unresolved-symbols=ignore-in-object-files -Wl,--entry=0 -fuse-ld=bfd  CMakeFiles/cmTC_55be0.dir/src.c.obj -o cmTC_55be0   && :
+        Run Build Command(s): /usr/bin/ninja -v cmTC_0a393
+        [1/2] /home/g/zephyr-sdk-1.0.1/gnu/riscv64-zephyr-elf/bin/riscv64-zephyr-elf-gcc -DC_COMPILER_SUPPORTS_WFORMAT_SIGNEDNESS  -nostartfiles -nostdlib -isystem "/home/g/zephyr-sdk-1.0.1/gnu/riscv64-zephyr-elf/bin/../lib/gcc/riscv64-zephyr-elf/14.3.0/include" -isystem "/home/g/zephyr-sdk-1.0.1/gnu/riscv64-zephyr-elf/bin/../lib/gcc/riscv64-zephyr-elf/14.3.0/include" -Wl,--unresolved-symbols=ignore-in-object-files -Wl,--entry=0 -fuse-ld=bfd -std=c99   -Wformat-signedness -o CMakeFiles/cmTC_0a393.dir/src.c.obj -c /home/g/zephyrproject/zephyr/samples/ESP32_C3_SCD41/build/CMakeFiles/CMakeScratch/TryCompile-Z47Dl9/src.c
+        [2/2] : && /home/g/zephyr-sdk-1.0.1/gnu/riscv64-zephyr-elf/bin/riscv64-zephyr-elf-gcc -nostartfiles -nostdlib -isystem "/home/g/zephyr-sdk-1.0.1/gnu/riscv64-zephyr-elf/bin/../lib/gcc/riscv64-zephyr-elf/14.3.0/include" -isystem "/home/g/zephyr-sdk-1.0.1/gnu/riscv64-zephyr-elf/bin/../lib/gcc/riscv64-zephyr-elf/14.3.0/include" -Wl,--unresolved-symbols=ignore-in-object-files -Wl,--entry=0 -fuse-ld=bfd  CMakeFiles/cmTC_0a393.dir/src.c.obj -o cmTC_0a393   && :
         
       exitCode: 0
 ...

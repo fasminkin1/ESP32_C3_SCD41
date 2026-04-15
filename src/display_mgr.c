@@ -1,8 +1,12 @@
 #include "display_mgr.h"
 #include "app_config.h"
 #include "sensors.h"
+#include <zephyr/logging/log.h>
 #include <zephyr/display/cfb.h>
+#include <zephyr/drivers/display.h>
 #include <stdio.h>
+
+LOG_MODULE_DECLARE(app, LOG_LEVEL_INF);
 
 const struct device *display = DEVICE_DT_GET(DT_CHOSEN(zephyr_display));
 
@@ -15,7 +19,39 @@ int display_mgr_init(void)
 	cfb_framebuffer_clear(display, true);
 	cfb_framebuffer_set_font(display, 0);
 
+	display_blanking_off(display);
+
 	return 0;
+}
+
+void display_mgr_show_splash(void)
+{
+	uint16_t width, height;
+	uint8_t rows, cols;
+
+	width = cfb_get_display_parameter(display, CFB_DISPLAY_WIDTH);
+	height = cfb_get_display_parameter(display, CFB_DISPLAY_HEIGHT);
+	rows = cfb_get_display_parameter(display, CFB_DISPLAY_ROWS);
+	cols = cfb_get_display_parameter(display, CFB_DISPLAY_COLS);
+
+	LOG_INF("Display: %dx%d, %d rows, %d cols", width, height, rows, cols);
+
+	int num_fonts = cfb_get_numof_fonts(display);
+	LOG_INF("Fonts available: %d", num_fonts);
+
+	for (int i = 0; i < num_fonts; i++) {
+		uint8_t f_width, f_height;
+		cfb_get_font_size(display, i, &f_width, &f_height);
+		LOG_INF("Font %d: %dx%d", i, f_width, f_height);
+	}
+
+	LOG_INF("Showing splash screen (version %s)", APP_VERSION);
+	cfb_framebuffer_clear(display, false);
+	cfb_print(display, "SCD41", 0, 0);
+	cfb_print(display, (char *)APP_VERSION, 0, 20);
+	cfb_framebuffer_finalize(display);
+	k_sleep(K_SECONDS(5));
+	LOG_INF("Splash screen finished");
 }
 
 void display_mgr_update(void)

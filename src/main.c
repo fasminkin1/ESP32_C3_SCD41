@@ -31,6 +31,8 @@ int main(void)
 		return 0;
 	}
 
+	display_mgr_show_splash();
+
 	/* Initialize Bluetooth via dedicated manager */
 	err = ble_mgr_init();
 	if (err) {
