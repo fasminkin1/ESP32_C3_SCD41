@@ -10,7 +10,7 @@ ELF Header:
   Version:                           0x1
   Entry point address:               0x40385444
   Start of program headers:          52 (bytes into file)
-  Start of section headers:          7600468 (bytes into file)
+  Start of section headers:          7602596 (bytes into file)
   Flags:                             0x1, RVC, soft-float ABI
   Size of this header:               52 (bytes)
   Size of program headers:           32 (bytes)
@@ -22,17 +22,17 @@ ELF Header:
 Section Headers:
   [Nr] Name              Type            Addr     Off    Size   ES Flg Lk Inf Al
   [ 0]                   NULL            00000000 000000 000000 00      0   0  0
-  [ 1] .rtc.text         PROGBITS        50000000 071d00 000000 00   W  0   0  1
-  [ 2] .rtc.force_fast   PROGBITS        50000000 071d00 000000 00   W  0   0  1
-  [ 3] .rtc.data         PROGBITS        50000000 071d00 000000 00   W  0   0  1
-  [ 4] .rtc_noinit       PROGBITS        50000000 071d00 000000 00   W  0   0  1
+  [ 1] .rtc.text         PROGBITS        50000000 071f4c 000000 00   W  0   0  1
+  [ 2] .rtc.force_fast   PROGBITS        50000000 071f4c 000000 00   W  0   0  1
+  [ 3] .rtc.data         PROGBITS        50000000 071f4c 000000 00   W  0   0  1
+  [ 4] .rtc_noinit       PROGBITS        50000000 071f4c 000000 00   W  0   0  1
   [ 5] .rtc.force_slow   PROGBITS        50000000 0001f4 000024 00  WA  0   0  4
   [ 6] .iram0.text       PROGBITS        40380000 000300 00f2a8 00  AX  0   0 256
   [ 7] .loader.text      PROGBITS        4038f2a8 00f5a8 000818 00  AX  0   0  2
-  [ 8] .iram0.text_end   PROGBITS        4038fac0 071d00 000000 00   W  0   0  1
-  [ 9] .iram0.data       PROGBITS        4038fac0 071d00 000000 00   W  0   0  1
-  [10] .iram0.bss        PROGBITS        4038fac0 071d00 000000 00   W  0   0  1
-  [11] .dram0.dummy      NOBITS          3fc80000 071d00 00fad0 00  WA  0   0  1
+  [ 8] .iram0.text_end   PROGBITS        4038fac0 071f4c 000000 00   W  0   0  1
+  [ 9] .iram0.data       PROGBITS        4038fac0 071f4c 000000 00   W  0   0  1
+  [10] .iram0.bss        PROGBITS        4038fac0 071f4c 000000 00   W  0   0  1
+  [11] .dram0.dummy      NOBITS          3fc80000 071f4c 00fad0 00  WA  0   0  1
   [12] .dram0.data       PROGBITS        3fc8fad0 00fdc0 002300 00  WA  0   0  8
   [13] .loader.data      PROGBITS        3fc91dd0 0120c0 000320 00   A  0   0  4
   [14] sw_isr_table      PROGBITS        3fc920f0 0123e0 000100 00  WA  0   0  4
@@ -54,49 +54,49 @@ Section Headers:
   [30] rtio_cqe_poo[...] PROGBITS        3fc925f0 0128e0 000014 00  WA  0   0  4
   [31] log_const_area    PROGBITS        3fc92604 0128f4 000170 00   A  0   0  4
   [32] log_backend_area  PROGBITS        3fc92774 012a64 000010 00   A  0   0  4
-  [33] .dram0.end        PROGBITS        3fc92784 071d00 000000 00   W  0   0  1
+  [33] .dram0.end        PROGBITS        3fc92784 071f4c 000000 00   W  0   0  1
   [34] .dram0.noinit     NOBITS          3fc92790 012a80 0102c0 00  WA  0   0 16
   [35] .dram0.bss        NOBITS          3fca2a50 012a80 004b90 00  WA  0   0 16
   [36] .text_dummy       NOBITS          00012798 012a74 00d868 00  WA  0   0  1
-  [37] .text             PROGBITS        42000000 020000 041c26 00 WAX  0   0 65536
-  [38] .flash.dummy      NOBITS          00061c26 061c26 00e3da 00  WA  0   0  1
-  [39] .flash.rodat[...] NOBITS          3c000000 071d00 050000 00  WA  0   0  1
-  [40] .flash.rodata     PROGBITS        3c050000 061c30 00fb08 00   A  0   0 16
-  [41] initlevel         PROGBITS        3c05fb08 071738 0000d0 00   A  0   0  4
-  [42] device_area       PROGBITS        3c05fbd8 071808 000140 00   A  0   0  4
-  [43] entropy_driv[...] PROGBITS        3c05fd18 071948 000008 00   A  0   0  4
-  [44] flash_driver[...] PROGBITS        3c05fd20 071950 000018 00   A  0   0  4
-  [45] gpio_driver_[...] PROGBITS        3c05fd38 071968 000024 00   A  0   0  4
-  [46] i2c_driver_a[...] PROGBITS        3c05fd5c 07198c 000018 00   A  0   0  4
-  [47] sensor_drive[...] PROGBITS        3c05fd74 0719a4 00001c 00   A  0   0  4
-  [48] bt_hci_drive[...] PROGBITS        3c05fd90 0719c0 00000c 00   A  0   0  4
-  [49] clock_contro[...] PROGBITS        3c05fd9c 0719cc 00001c 00   A  0   0  4
-  [50] display_driv[...] PROGBITS        3c05fdb8 0719e8 000034 00   A  0   0  4
-  [51] uart_driver_[...] PROGBITS        3c05fdec 071a1c 000098 00   A  0   0  4
-  [52] bt_l2cap_fix[...] PROGBITS        3c05fe84 071ab4 000018 00   A  0   0  4
-  [53] bt_conn_cb_area   PROGBITS        3c05fe9c 071acc 000020 00   A  0   0  4
-  [54] bt_gatt_serv[...] PROGBITS        3c05febc 071aec 000018 00   A  0   0  4
-  [55] symbol_to_keep    PROGBITS        3c05fed4 071b04 000004 00   A  0   0  4
-  [56] shell_area        PROGBITS        3c05fed8 071b08 000030 00   A  0   0  4
-  [57] shell_root_c[...] PROGBITS        3c05ff08 071b38 000044 00   A  0   0  4
-  [58] shell_subcmd[...] PROGBITS        3c05ff4c 071b7c 00012c 00   A  0   0  4
-  [59] shell_dynami[...] PROGBITS        3c060078 071ca8 000034 00   A  0   0  4
-  [60] cfb_font_area     PROGBITS        3c0600ac 071cdc 000024 00   A  0   0  4
-  [61] tbss              NOBITS          3c0600d0 071d00 000008 00 WAT  0   0  4
-  [62] .flash.rodata_end PROGBITS        3c0600d0 071d00 000000 00   W  0   0 16
-  [63] .comment          PROGBITS        00000000 071d00 000076 01  MS  0   0  1
-  [64] .debug_aranges    PROGBITS        00000000 071d78 0070f8 00      0   0  8
-  [65] .debug_info       PROGBITS        00000000 078e70 3e9739 00      0   0  1
-  [66] .debug_abbrev     PROGBITS        00000000 4625a9 03c4e8 00      0   0  1
-  [67] .debug_line       PROGBITS        00000000 49ea91 1315f8 00      0   0  1
-  [68] .debug_frame      PROGBITS        00000000 5d008c 017834 00      0   0  4
-  [69] .debug_str        PROGBITS        00000000 5e78c0 03fe11 01  MS  0   0  1
-  [70] .debug_loc        PROGBITS        00000000 6276d1 0ae17a 00      0   0  1
-  [71] .debug_ranges     PROGBITS        00000000 6d584b 021c98 00      0   0  1
-  [72] .riscv.attributes RISCV_ATTRIBUTE 00000000 6f74e3 000060 00      0   0  1
-  [73] .symtab           SYMTAB          00000000 6f7544 023870 10     74 3947  4
-  [74] .strtab           STRTAB          00000000 71adb4 02472b 00      0   0  1
-  [75] .shstrtab         STRTAB          00000000 73f4df 000475 00      0   0  1
+  [37] .text             PROGBITS        42000000 020000 041d6e 00 WAX  0   0 65536
+  [38] .flash.dummy      NOBITS          00061d6e 061d6e 00e292 00  WA  0   0  1
+  [39] .flash.rodat[...] NOBITS          3c000000 071f4c 050000 00  WA  0   0  1
+  [40] .flash.rodata     PROGBITS        3c050000 061d70 00fc14 00   A  0   0 16
+  [41] initlevel         PROGBITS        3c05fc14 071984 0000d0 00   A  0   0  4
+  [42] device_area       PROGBITS        3c05fce4 071a54 000140 00   A  0   0  4
+  [43] entropy_driv[...] PROGBITS        3c05fe24 071b94 000008 00   A  0   0  4
+  [44] flash_driver[...] PROGBITS        3c05fe2c 071b9c 000018 00   A  0   0  4
+  [45] gpio_driver_[...] PROGBITS        3c05fe44 071bb4 000024 00   A  0   0  4
+  [46] i2c_driver_a[...] PROGBITS        3c05fe68 071bd8 000018 00   A  0   0  4
+  [47] sensor_drive[...] PROGBITS        3c05fe80 071bf0 00001c 00   A  0   0  4
+  [48] bt_hci_drive[...] PROGBITS        3c05fe9c 071c0c 00000c 00   A  0   0  4
+  [49] clock_contro[...] PROGBITS        3c05fea8 071c18 00001c 00   A  0   0  4
+  [50] display_driv[...] PROGBITS        3c05fec4 071c34 000034 00   A  0   0  4
+  [51] uart_driver_[...] PROGBITS        3c05fef8 071c68 000098 00   A  0   0  4
+  [52] bt_l2cap_fix[...] PROGBITS        3c05ff90 071d00 000018 00   A  0   0  4
+  [53] bt_conn_cb_area   PROGBITS        3c05ffa8 071d18 000020 00   A  0   0  4
+  [54] bt_gatt_serv[...] PROGBITS        3c05ffc8 071d38 000018 00   A  0   0  4
+  [55] symbol_to_keep    PROGBITS        3c05ffe0 071d50 000004 00   A  0   0  4
+  [56] shell_area        PROGBITS        3c05ffe4 071d54 000030 00   A  0   0  4
+  [57] shell_root_c[...] PROGBITS        3c060014 071d84 000044 00   A  0   0  4
+  [58] shell_subcmd[...] PROGBITS        3c060058 071dc8 00012c 00   A  0   0  4
+  [59] shell_dynami[...] PROGBITS        3c060184 071ef4 000034 00   A  0   0  4
+  [60] cfb_font_area     PROGBITS        3c0601b8 071f28 000024 00   A  0   0  4
+  [61] tbss              NOBITS          3c0601dc 071f4c 000008 00 WAT  0   0  4
+  [62] .flash.rodata_end PROGBITS        3c0601e0 071f50 000000 00   W  0   0 16
+  [63] .comment          PROGBITS        00000000 071f50 000076 01  MS  0   0  1
+  [64] .debug_aranges    PROGBITS        00000000 071fc8 007108 00      0   0  8
+  [65] .debug_info       PROGBITS        00000000 0790d0 3e9925 00      0   0  1
+  [66] .debug_abbrev     PROGBITS        00000000 4629f5 03c4e8 00      0   0  1
+  [67] .debug_line       PROGBITS        00000000 49eedd 1317f5 00      0   0  1
+  [68] .debug_frame      PROGBITS        00000000 5d06d4 017884 00      0   0  4
+  [69] .debug_str        PROGBITS        00000000 5e7f58 03fe24 01  MS  0   0  1
+  [70] .debug_loc        PROGBITS        00000000 627d7c 0ae2a6 00      0   0  1
+  [71] .debug_ranges     PROGBITS        00000000 6d6022 021ca8 00      0   0  1
+  [72] .riscv.attributes RISCV_ATTRIBUTE 00000000 6f7cca 000060 00      0   0  1
+  [73] .symtab           SYMTAB          00000000 6f7d2c 0238c0 10     74 3952  4
+  [74] .strtab           STRTAB          00000000 71b5ec 024741 00      0   0  1
+  [75] .shstrtab         STRTAB          00000000 73fd2d 000475 00      0   0  1
 Key to Flags:
   W (write), A (alloc), X (execute), M (merge), S (strings), I (info),
   L (link order), O (extra OS processing required), G (group), T (TLS),
@@ -105,19 +105,19 @@ Key to Flags:
 
 Program Headers:
   Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align
-  RISCV_ATTRIBUT 0x6f74e3 0x00000000 0x00000000 0x00060 0x00000 R   0x1
+  RISCV_ATTRIBUT 0x6f7cca 0x00000000 0x00000000 0x00060 0x00000 R   0x1
   LOAD           0x0001f4 0x50000000 0x00000000 0x00024 0x00024 RW  0x4
   LOAD           0x000300 0x40380000 0x00000024 0x0fac0 0x0fac0 R E 0x100
   LOAD           0x00fdc0 0x3fc8fad0 0x0000fae4 0x02cb4 0x02cb4 RW  0x8
   LOAD           0x000000 0x00012798 0x00012798 0x00000 0x0d868 RW  0x1
   LOAD           0x000000 0x3fc92790 0x00012798 0x00000 0x102c0 RW  0x10
   LOAD           0x000000 0x3fca2a50 0x00012798 0x00000 0x04b90 RW  0x10
-  LOAD           0x020000 0x42000000 0x00020000 0x41c26 0x41c26 RWE 0x10000
-  LOAD           0x000000 0x00061c26 0x00061c26 0x00000 0x0e3da RW  0x1
-  LOAD           0x061c30 0x3c050000 0x00070000 0x100d0 0x100d0 RW  0x10
+  LOAD           0x020000 0x42000000 0x00020000 0x41d6e 0x41d6e RWE 0x10000
+  LOAD           0x000000 0x00061d6e 0x00061d6e 0x00000 0x0e292 RW  0x1
+  LOAD           0x061d70 0x3c050000 0x00070000 0x101dc 0x101dc RW  0x10
   LOAD           0x000000 0x3c000000 0x3c000000 0x00000 0x50000 RW  0x1
   LOAD           0x000000 0x3fc80000 0x3fc80000 0x00000 0x0fad0 RW  0x1
-  TLS            0x071d00 0x3c0600d0 0x000800d0 0x00000 0x00008 R   0x4
+  TLS            0x071f4c 0x3c0601dc 0x000801dc 0x00000 0x00008 R   0x4
   GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RW  0x10
 
  Section to Segment mapping:

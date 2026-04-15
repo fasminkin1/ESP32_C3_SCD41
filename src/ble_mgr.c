@@ -106,6 +106,10 @@ static struct bt_data ad[] = {
 	BT_DATA(BT_DATA_SVC_DATA16, ad_service_data, sizeof(ad_service_data)),
 };
 
+static const struct bt_data sd[] = {
+	BT_DATA(BT_DATA_NAME_COMPLETE, CONFIG_BT_DEVICE_NAME, sizeof(CONFIG_BT_DEVICE_NAME) - 1),
+};
+
 static void update_ad_data(void)
 {
 	k_mutex_lock(&config_mutex, K_FOREVER);
@@ -119,7 +123,7 @@ static void update_ad_data(void)
 	ad_service_data[2] = (co2 >> 8) & 0xFF;
 	ad_service_data[3] = co2 & 0xFF;
 
-	bt_le_adv_update_data(ad, ARRAY_SIZE(ad), NULL, 0);
+	bt_le_adv_update_data(ad, ARRAY_SIZE(ad), sd, ARRAY_SIZE(sd));
 }
 
 static void bt_ready(int err)
@@ -130,7 +134,7 @@ static void bt_ready(int err)
 	}
 	LOG_INF("Bluetooth initialized and ready");
 
-	err = bt_le_adv_start(BT_LE_ADV_CONN_FAST_1, ad, ARRAY_SIZE(ad), NULL, 0);
+	err = bt_le_adv_start(BT_LE_ADV_CONN_FAST_1, ad, ARRAY_SIZE(ad), sd, ARRAY_SIZE(sd));
 	if (err) {
 		LOG_ERR("Advertising failed to start (err %d)", err);
 		return;
