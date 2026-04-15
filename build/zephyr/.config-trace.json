@@ -727,12 +727,9 @@
     "CONFIG_BT_AUTO_DATA_LEN_UPDATE",
     "y",
     "bool",
-    "y",
-    "default",
-    [
-      "/home/g/zephyrproject/zephyr/subsys/bluetooth/host/Kconfig",
-      486
-    ]
+    null,
+    "unset",
+    null
   ],
   [
     "CONFIG_BT_TX_PROCESSOR_STACK_SIZE",
@@ -9650,17 +9647,6 @@
     ]
   ],
   [
-    "CONFIG_BT_DRIVER_QUIRK_NO_AUTO_DLE",
-    "y",
-    "bool",
-    "y",
-    "default",
-    [
-      "/home/g/zephyrproject/zephyr/drivers/bluetooth/hci/Kconfig",
-      281
-    ]
-  ],
-  [
     "CONFIG_BT_DRV_TX_STACK_SIZE",
     "n",
     "int",
@@ -13352,9 +13338,12 @@
     "CONFIG_BT_USER_DATA_LEN_UPDATE",
     "y",
     "bool",
-    null,
-    "unset",
-    null
+    "y",
+    "assign",
+    [
+      "/home/g/zephyrproject/zephyr/samples/ESP32_C3_SCD41/prj.conf",
+      39
+    ]
   ],
   [
     "CONFIG_BT_REMOTE_INFO",
@@ -13654,14 +13643,24 @@
     ]
   ],
   [
-    "CONFIG_BT_GATT_AUTO_SEC_REQ",
+    "CONFIG_BT_GATT_AUTO_RESUBSCRIBE",
     "y",
     "bool",
     "y",
     "default",
     [
       "/home/g/zephyrproject/zephyr/subsys/bluetooth/host/Kconfig.gatt",
-      86
+      73
+    ]
+  ],
+  [
+    "CONFIG_BT_GATT_AUTO_SEC_REQ",
+    "y",
+    "bool",
+    "y",
+    "imply",
+    [
+      "BT_GATT_AUTO_RESUBSCRIBE && BT_GATT_CLIENT && BT_CONN && BT_HCI_HOST && BT_HCI && BT"
     ]
   ],
   [
@@ -13725,9 +13724,12 @@
     "CONFIG_BT_GATT_CLIENT",
     "y",
     "bool",
-    null,
-    "unset",
-    null
+    "y",
+    "assign",
+    [
+      "/home/g/zephyrproject/zephyr/samples/ESP32_C3_SCD41/prj.conf",
+      38
+    ]
   ],
   [
     "CONFIG_BT_GATT_READ_MULTIPLE",
@@ -13750,6 +13752,22 @@
       "/home/g/zephyrproject/zephyr/subsys/bluetooth/host/Kconfig.gatt",
       192
     ]
+  ],
+  [
+    "CONFIG_BT_GATT_AUTO_DISCOVER_CCC",
+    "y",
+    "bool",
+    null,
+    "unset",
+    null
+  ],
+  [
+    "CONFIG_BT_GATT_AUTO_UPDATE_MTU",
+    "y",
+    "bool",
+    null,
+    "unset",
+    null
   ],
   [
     "CONFIG_BT_GAP_AUTO_UPDATE_CONN_PARAMS",
@@ -14470,10 +14488,10 @@
     "y",
     "int",
     "251",
-    "default",
+    "assign",
     [
-      "/home/g/zephyrproject/zephyr/subsys/bluetooth/controller/Kconfig",
-      612
+      "/home/g/zephyrproject/zephyr/samples/ESP32_C3_SCD41/prj.conf",
+      40
     ]
   ],
   [
