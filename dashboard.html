@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCD41 Air Manager</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #0f172a; color: white; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+        .card { background: #1e293b; padding: 25px; border-radius: 15px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5); width: 100%; max-width: 450px; text-align: center; }
+        .btn { background: #3b82f6; color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-size: 16px; transition: 0.3s; margin: 10px; }
+        .btn:hover { background: #2563eb; transform: scale(1.05); }
+        .btn-stop { background: #ef4444; }
+        .status { font-size: 24px; font-weight: bold; margin: 15px 0; color: #10b981; }
+        .data { font-family: monospace; background: #000; padding: 15px; border-radius: 5px; margin: 10px 0; font-size: 14px; text-align: left; overflow-x: auto; min-height: 40px; }
+        .controls { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>🌬️ Air Monitor</h1>
+        <button id="connect" class="btn">Подключиться по Bluetooth</button>
+        <div id="connectionStatus">Статус: Отключено</div>
+        
+        <div class="status" id="mainStatus">---</div>
+        <div class="data" id="telemetry">Ожидание данных...</div>
+        
+        <div class="controls">
+            <button class="btn" onclick="sendCommand('start')">Старт (Fetch)</button>
+            <button class="btn btn-stop" onclick="sendCommand('stop')">Стоп</button>
+            <button class="btn" onclick="sendCommand('scd advice')">Дать совет</button>
+            <button class="btn" onclick="sendCommand('scd lang ru')">Язык: RU</button>
+        </div>
+        <p style="font-size: 10px; color: #64748b; margin-top: 20px;">Используйте Chrome или Edge. Убедитесь, что устройство прошито и рекламирует себя.</p>
+    </div>
+
+    <script>
+        const SERVICE_UUID = '12345678-abcd-4444-8888-534344343100';
+        const TELEMETRY_UUID = '12345678-abcd-4444-8888-534344343101';
+        const COMMAND_UUID = '12345678-abcd-4444-8888-534344343102';
+
+        let device, server, service, cmdChar, telChar;
+
+        document.getElementById('connect').addEventListener('click', async () => {
+            try {
+                device = await navigator.bluetooth.requestDevice({
+                    filters: [{ name: 'SCD41_Monitor' }],
+                    optionalServices: [SERVICE_UUID]
+                });
+
+                document.getElementById('connectionStatus').innerText = 'Подключение...';
+                server = await device.gatt.connect();
+                service = await server.getPrimaryService(SERVICE_UUID);
+                cmdChar = await service.getCharacteristic(COMMAND_UUID);
+                telChar = await service.getCharacteristic(TELEMETRY_UUID);
+
+                await telChar.startNotifications();
+                telChar.addEventListener('characteristicvaluechanged', (event) => {
+                    const value = new TextDecoder().decode(event.target.value);
+                    document.getElementById('telemetry').innerText = value;
+                    
+                    // Извлекаем статус (GOOD/POOR/BAD)
+                    const parts = value.split('|');
+                    if (parts.length >= 4) {
+                        const status = parts[3].trim();
+                        document.getElementById('mainStatus').innerText = status;
+                        document.getElementById('mainStatus').style.color = 
+                            status.includes('POOR') ? '#f59e0b' : 
+                            status.includes('BAD') ? '#ef4444' : '#10b981';
+                    }
+                });
+
+                document.getElementById('connectionStatus').innerText = 'Статус: Подключено ✅';
+                document.getElementById('connect').style.display = 'none';
+
+            } catch (error) {
+                console.error(error);
+                document.getElementById('connectionStatus').innerText = 'Ошибка: ' + error.message;
+            }
+        });
+
+        async function sendCommand(cmd) {
+            if (!cmdChar) return alert('Сначала подключитесь!');
+            const encoder = new TextEncoder();
+            await cmdChar.writeValue(encoder.encode(cmd));
+            console.log('Отправлена команда:', cmd);
+        }
+    </script>
+</body>
+</html>

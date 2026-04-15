@@ -1,0 +1,10 @@
+/* SCD41 Sensor Overlay */
+
+&i2c0 {
+	status = "okay";
+	scd41: scd41@62 {
+		compatible = "sensirion,scd41";
+		reg = <0x62>;
+		mode = <0>;
+	};
+};

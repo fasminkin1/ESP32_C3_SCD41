@@ -1,0 +1,61 @@
+cmake:
+  application:
+    configuration-dir: '/home/g/zephyrproject/zephyr/samples/ESP32_C3_SCD41'
+    source-dir: '/home/g/zephyrproject/zephyr/samples/ESP32_C3_SCD41'
+  board:
+    name: 'esp32c3_042_oled'
+    path:
+     - '/home/g/zephyrproject/zephyr/boards/01space/esp32c3_042_oled'
+    qualifiers: 'esp32c3'
+    revision: ''
+  devicetree:
+    bindings-dirs:
+     - '/home/g/zephyrproject/zephyr/dts/bindings'
+    files:
+     - '/home/g/zephyrproject/zephyr/boards/01space/esp32c3_042_oled/esp32c3_042_oled.dts'
+     - '/home/g/zephyrproject/zephyr/samples/ESP32_C3_SCD41/app.overlay'
+    include-dirs:
+     - '/home/g/zephyrproject/modules/hal/ambiq/dts'
+     - '/home/g/zephyrproject/modules/hal/atmel/include'
+     - '/home/g/zephyrproject/modules/hal/bouffalolab/include'
+     - '/home/g/zephyrproject/modules/hal/bouffalolab/include/zephyr'
+     - '/home/g/zephyrproject/modules/hal/gigadevice/include'
+     - '/home/g/zephyrproject/modules/hal/microchip/include'
+     - '/home/g/zephyrproject/modules/hal/microchip/dts'
+     - '/home/g/zephyrproject/modules/hal/nuvoton/dts'
+     - '/home/g/zephyrproject/modules/hal/nxp/dts'
+     - '/home/g/zephyrproject/modules/hal/stm32/dts'
+     - '/home/g/zephyrproject/modules/hal/ti/dts'
+     - '/home/g/zephyrproject/zephyr/include'
+     - '/home/g/zephyrproject/zephyr/include/zephyr'
+     - '/home/g/zephyrproject/zephyr/dts/common'
+     - '/home/g/zephyrproject/zephyr/dts/vendor'
+     - '/home/g/zephyrproject/zephyr/dts/rx'
+     - '/home/g/zephyrproject/zephyr/dts/x86'
+     - '/home/g/zephyrproject/zephyr/dts/xtensa'
+     - '/home/g/zephyrproject/zephyr/dts/sparc'
+     - '/home/g/zephyrproject/zephyr/dts/riscv'
+     - '/home/g/zephyrproject/zephyr/dts/posix'
+     - '/home/g/zephyrproject/zephyr/dts/arm64'
+     - '/home/g/zephyrproject/zephyr/dts/arm'
+     - '/home/g/zephyrproject/zephyr/dts/arc'
+     - '/home/g/zephyrproject/zephyr/dts'
+    user-files:
+     - '/home/g/zephyrproject/zephyr/samples/ESP32_C3_SCD41/app.overlay'
+  kconfig:
+    files:
+     - '/home/g/zephyrproject/zephyr/boards/01space/esp32c3_042_oled/esp32c3_042_oled_defconfig'
+     - '/home/g/zephyrproject/zephyr/samples/ESP32_C3_SCD41/prj.conf'
+    user-files:
+     - '/home/g/zephyrproject/zephyr/samples/ESP32_C3_SCD41/prj.conf'
+  toolchain:
+    name: 'zephyr'
+    path: '/home/g/zephyr-sdk-1.0.1'
+  zephyr:
+    version: '4.4.99'
+    zephyr-base: '/home/g/zephyrproject/zephyr'
+version: '0.1.0'
+west:
+  command: '/home/g/zephyrproject/.venv/bin/west build -b esp32c3_042_oled --pristine'
+  topdir: '/home/g/zephyrproject'
+  version: '1.5.0'
