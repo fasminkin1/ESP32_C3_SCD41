@@ -26,31 +26,6 @@ static struct bt_uuid_128 scd_cmd_uuid = BT_UUID_INIT_128(BT_UUID_SCD_CMD_VAL);
 static uint8_t telemetry_buf[128];
 static struct bt_conn *current_conn;
 
-/* ---- BLE Callbacks ---- */
-static void connected(struct bt_conn *conn, uint8_t err)
-{
-	if (err) {
-		LOG_ERR("Connection failed (err %u)", err);
-		return;
-	}
-	LOG_INF("Phone connected");
-	current_conn = bt_conn_ref(conn);
-}
-
-static void disconnected(struct bt_conn *conn, uint8_t reason)
-{
-	LOG_INF("Phone disconnected (reason %u)", reason);
-	if (current_conn) {
-		bt_conn_unref(current_conn);
-		current_conn = NULL;
-	}
-}
-
-BT_CONN_CB_DEFINE(conn_callbacks) = {
-	.connected = connected,
-	.disconnected = disconnected,
-};
-
 /* ---- Characteristic Handlers ---- */
 static ssize_t read_telemetry(struct bt_conn *conn, const struct bt_gatt_attr *attr,
 			      void *buf, uint16_t len, uint16_t offset)
@@ -125,6 +100,39 @@ static void update_ad_data(void)
 
 	bt_le_adv_update_data(ad, ARRAY_SIZE(ad), sd, ARRAY_SIZE(sd));
 }
+
+/* ---- BLE Callbacks ---- */
+static void connected(struct bt_conn *conn, uint8_t err)
+{
+	if (err) {
+		LOG_ERR("Connection failed (err %u)", err);
+		return;
+	}
+	LOG_INF("Phone connected");
+	current_conn = bt_conn_ref(conn);
+}
+
+static void disconnected(struct bt_conn *conn, uint8_t reason)
+{
+	LOG_INF("Phone disconnected (reason %02x)", reason);
+	if (current_conn) {
+		bt_conn_unref(current_conn);
+		current_conn = NULL;
+	}
+
+	/* Restart advertising so the device is visible again without power cycle */
+	int err = bt_le_adv_start(BT_LE_ADV_CONN_FAST_1, ad, ARRAY_SIZE(ad), sd, ARRAY_SIZE(sd));
+	if (err) {
+		LOG_ERR("Advertising failed to restart (err %d)", err);
+	} else {
+		LOG_INF("Advertising restarted");
+	}
+}
+
+BT_CONN_CB_DEFINE(conn_callbacks) = {
+	.connected = connected,
+	.disconnected = disconnected,
+};
 
 static void bt_ready(int err)
 {
