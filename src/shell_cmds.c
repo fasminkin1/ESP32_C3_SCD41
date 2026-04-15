@@ -82,6 +82,22 @@ static int cmd_start_stop(const struct shell *shell, size_t argc, char **argv)
 	return 0;
 }
 
+static int cmd_active(const struct shell *shell, size_t argc, char **argv)
+{
+	k_mutex_lock(&config_mutex, K_FOREVER);
+	if (strcmp(argv[1], "on") == 0) config.active = true;
+	else if (strcmp(argv[1], "off") == 0) config.active = false;
+	else {
+		shell_error(shell, "Usage: app active <on|off>");
+		k_mutex_unlock(&config_mutex);
+		return -EINVAL;
+	}
+	k_mutex_unlock(&config_mutex);
+	app_config_save();
+	shell_print(shell, "System active: %s", config.active ? "ON" : "OFF");
+	return 0;
+}
+
 static int cmd_lang(const struct shell *shell, size_t argc, char **argv)
 {
 	k_mutex_lock(&config_mutex, K_FOREVER);
@@ -158,23 +174,42 @@ static int cmd_log_off(const struct shell *shell, size_t argc, char **argv)
 	return 0;
 }
 
-SHELL_STATIC_SUBCMD_SET_CREATE(sub_scd,
+static int cmd_log(const struct shell *shell, size_t argc, char **argv)
+{
+	k_mutex_lock(&config_mutex, K_FOREVER);
+	if (strcmp(argv[1], "on") == 0) config.log_to_console = true;
+	else if (strcmp(argv[1], "off") == 0) config.log_to_console = false;
+	else {
+		shell_error(shell, "Usage: app log <on|off>");
+		k_mutex_unlock(&config_mutex);
+		return -EINVAL;
+	}
+	k_mutex_unlock(&config_mutex);
+	app_config_save();
+	shell_print(shell, "Logging: %s", config.log_to_console ? "ON" : "OFF");
+	return 0;
+}
+
+SHELL_STATIC_SUBCMD_SET_CREATE(sub_app,
 	SHELL_CMD_ARG(status, NULL, "Show current settings", cmd_status, 1, 0),
 	SHELL_CMD_ARG(interval, NULL, "Set measurement interval in ms", cmd_interval, 2, 0),
-	SHELL_CMD_ARG(enable, NULL, "Enable metric {co2|temp|hum|dp|vpd|all}", cmd_enable, 2, 0),
-	SHELL_CMD_ARG(disable, NULL, "Disable metric {co2|temp|hum|dp|vpd|all}", cmd_disable, 2, 0),
+	SHELL_CMD_ARG(active, NULL, "Start/Stop measurements {on|off}", cmd_active, 2, 0),
+	SHELL_CMD_ARG(timer, NULL, "Set auto-stop timer in minutes (0 to disable)", cmd_timer, 2, 0),
+	SHELL_CMD_ARG(lang, NULL, "Change language {ru|en}", cmd_lang, 2, 0),
+	SHELL_CMD_ARG(log, NULL, "Toggle console logging {on|off}", cmd_log, 2, 0),
+	SHELL_CMD_ARG(enable, NULL, "Enable metric {co2|temp|hum|dp|vpd|all} (Advanced)", cmd_enable, 2, 0),
+	SHELL_CMD_ARG(disable, NULL, "Disable metric {co2|temp|hum|dp|vpd|all} (Advanced)", cmd_disable, 2, 0),
 	SHELL_CMD_ARG(asc, NULL, "Auto-calibration {on|off}", cmd_asc, 2, 0),
 	SHELL_CMD_ARG(info, NULL, "Show detailed metric interpretations", cmd_info, 1, 0),
 	SHELL_CMD_ARG(advice, NULL, "Get smart advice for current air quality", cmd_advice, 1, 0),
-	SHELL_CMD_ARG(timer, NULL, "Set auto-stop timer in minutes (0 to disable)", cmd_timer, 2, 0),
-	SHELL_CMD_ARG(lang, NULL, "Change language {ru|en}", cmd_lang, 2, 0),
 	SHELL_SUBCMD_SET_END
 );
 
-SHELL_CMD_REGISTER(scd, &sub_scd, "SCD4X sensor commands", NULL);
-SHELL_CMD_REGISTER(start, NULL, "Start measurements", cmd_start_stop);
-SHELL_CMD_REGISTER(stop, NULL, "Stop measurements", cmd_start_stop);
-SHELL_CMD_REGISTER(l1, NULL, "Enable console logging", cmd_log_on);
-SHELL_CMD_REGISTER(l0, NULL, "Disable console logging", cmd_log_off);
+SHELL_CMD_REGISTER(app, &sub_app, "Air Monitor application commands", NULL);
+/* Keep start/stop/l1/l0 as convenient aliases for physical console usage */
+SHELL_CMD_REGISTER(start, NULL, "Start measurements (Quick)", cmd_start_stop);
+SHELL_CMD_REGISTER(stop, NULL, "Stop measurements (Quick)", cmd_start_stop);
+SHELL_CMD_REGISTER(l1, NULL, "Enable console logging (Quick)", cmd_log_on);
+SHELL_CMD_REGISTER(l0, NULL, "Disable console logging (Quick)", cmd_log_off);
 
 void shell_cmds_init(void) {}
