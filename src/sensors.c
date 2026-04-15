@@ -26,34 +26,18 @@ static double calculate_vpd(double temp, double hum)
 
 void sensors_print_formulas(const struct shell *shell)
 {
-	bool ru = config.lang_ru;
-	if (ru) {
-		shell_print(shell, "\n=== ИНТЕРПРЕТАЦИЯ ДАННЫХ ===");
-		shell_print(shell, "1. CO2 (PPM): Свежесть воздуха");
-		shell_print(shell, "   400-800: ОТЛИЧНО. Высокая продуктивность.");
-		shell_print(shell, "   800-1000: ХОРОШО. Норма для помещения.");
-		shell_print(shell, "   1000-1500: ПЛОХО. Вялость и сонливость.");
-		shell_print(shell, "   >1500: ОПАСНО. Головная боль, мозг 'отключается'.");
-		shell_print(shell, "\n2. ВЛАЖНОСТЬ (%%): Здоровье слизистых");
-		shell_print(shell, "   30-60%%: ОПТИМАЛЬНО. Идеально для глаз и легких.");
-		shell_print(shell, "   <30%%: СУХО. Риск вирусов и сухой кожи.");
-		shell_print(shell, "\n3. VPD (kPa): Баланс испарения");
-		shell_print(shell, "   0.8-1.2: ИДЕАЛЬНО.");
-		shell_print(shell, "============================\n");
-	} else {
-		shell_print(shell, "\n=== DATA INTERPRETATION ===");
-		shell_print(shell, "1. CO2 (PPM): Air freshness");
-		shell_print(shell, "   400-800: EXCELLENT. High productivity.");
-		shell_print(shell, "   800-1000: GOOD. Normal indoor level.");
-		shell_print(shell, "   1000-1500: POOR. Fatigue and sleepiness.");
-		shell_print(shell, "   >1500: BAD. Headache, 'brain off' syndrome.");
-		shell_print(shell, "\n2. HUMIDITY (%%): Comfort/Health");
-		shell_print(shell, "   30-60%%: OPTIMAL. Best for mucosa and skin.");
-		shell_print(shell, "   <30%%: DRY. Risk of viruses.");
-		shell_print(shell, "\n3. VPD (kPa): Evaporation balance");
-		shell_print(shell, "   0.8-1.2: IDEAL.");
-		shell_print(shell, "============================\n");
-	}
+	shell_print(shell, "\n=== DATA INTERPRETATION ===");
+	shell_print(shell, "1. CO2 (PPM): Air freshness");
+	shell_print(shell, "   400-800: EXCELLENT. High productivity.");
+	shell_print(shell, "   800-1000: GOOD. Normal indoor level.");
+	shell_print(shell, "   1000-1500: POOR. Fatigue and sleepiness.");
+	shell_print(shell, "   >1500: BAD. Headache, 'brain off' syndrome.");
+	shell_print(shell, "\n2. HUMIDITY (%%): Comfort/Health");
+	shell_print(shell, "   30-60%%: OPTIMAL. Best for mucosa and skin.");
+	shell_print(shell, "   <30%%: DRY. Risk of viruses.");
+	shell_print(shell, "\n3. VPD (kPa): Evaporation balance");
+	shell_print(shell, "   0.8-1.2: IDEAL. Good for plants and skin.");
+	shell_print(shell, "============================\n");
 }
 
 enum app_status sensors_get_status_code(void)
@@ -66,12 +50,11 @@ enum app_status sensors_get_status_code(void)
 
 const char* sensors_get_status_word(void)
 {
-	bool ru = config.lang_ru;
 	enum app_status code = sensors_get_status_code();
 	
-	if (code == STATUS_CRIT) return ru ? "BAD!" : "BAD!";
-	if (code == STATUS_WARN) return ru ? "WARN" : "WARN";
-	return ru ? "GOOD" : "GOOD";
+	if (code == STATUS_CRIT) return "BAD";
+	if (code == STATUS_WARN) return "WARN";
+	return "GOOD";
 }
 
 void sensors_give_advice(const struct shell *shell)
@@ -81,19 +64,17 @@ void sensors_give_advice(const struct shell *shell)
 
 const char* sensors_get_advice_string(void)
 {
-	bool ru = config.lang_ru;
-
 	if (last_data.co2 > 1500) {
-		return ru ? "!!! КРИТИЧЕСКИЙ CO2: ПРОВЕТРИТЕ!" : "!!! CRITICAL CO2: VENTILATE!";
+		return "!!! CRITICAL CO2: VENTILATE!";
 	} else if (last_data.co2 > 1000) {
-		return ru ? "! ПЛОХОЙ ВОЗДУХ: Проветрите." : "! POOR CO2: Ventilate.";
+		return "! POOR CO2: Ventilate.";
 	} else if (last_data.hum < 30.0) {
-		return ru ? "! СУХО: Нужен увлажнитель." : "! DRY AIR: Need humidifier.";
+		return "! DRY AIR: Need humidifier.";
 	} else if (last_data.hum > 70.0) {
-		return ru ? "! ВЛАЖНО: Плесень/грибок!" : "! HUMID: Risk of mold!";
+		return "! HUMID: Risk of mold!";
 	}
 
-	return ru ? "Все в норме. Хорошего дня!" : "Everything OK. Have a nice day!";
+	return "Everything OK. Have a nice day!";
 }
 
 int sensors_init(void)

@@ -8,15 +8,14 @@
 
 static int cmd_status(const struct shell *shell, size_t argc, char **argv)
 {
-	bool ru = config.lang_ru;
 	k_mutex_lock(&config_mutex, K_FOREVER);
-	shell_print(shell, ru ? "Система: %s" : "System: %s", config.active ? (ru ? "Активна" : "Active") : (ru ? "Пауза" : "Paused"));
-	shell_print(shell, ru ? "Статус: %s" : "Status: %s", sensors_get_status_word());
-	shell_print(shell, ru ? "Интервал: %d мс" : "Interval: %d ms", config.interval_ms);
+	shell_print(shell, "System: %s", config.active ? "Active" : "Paused");
+	shell_print(shell, "Status: %s", sensors_get_status_word());
+	shell_print(shell, "Interval: %d ms", config.interval_ms);
 	if (config.timer_min > 0) {
-		shell_print(shell, ru ? "Таймер: %d мин осталось" : "Timer: %d min remaining", config.timer_min);
+		shell_print(shell, "Timer: %d min remaining", config.timer_min);
 	}
-	shell_print(shell, ru ? "Язык: Русский" : "Language: English");
+	shell_print(shell, "Language: English");
 	k_mutex_unlock(&config_mutex);
 	return 0;
 }
@@ -100,18 +99,7 @@ static int cmd_active(const struct shell *shell, size_t argc, char **argv)
 
 static int cmd_lang(const struct shell *shell, size_t argc, char **argv)
 {
-	k_mutex_lock(&config_mutex, K_FOREVER);
-	if (strcmp(argv[1], "ru") == 0) {
-		config.lang_ru = true;
-		shell_print(shell, "Язык изменен на Русский");
-	} else if (strcmp(argv[1], "en") == 0) {
-		config.lang_ru = false;
-		shell_print(shell, "Language changed to English");
-	} else {
-		shell_error(shell, "Usage: scd lang <ru|en>");
-	}
-	k_mutex_unlock(&config_mutex);
-	app_config_save();
+	shell_print(shell, "Only English is supported to avoid terminal encoding issues.");
 	return 0;
 }
 
