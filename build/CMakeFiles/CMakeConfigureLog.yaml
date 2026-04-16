@@ -94,8 +94,8 @@ events:
     checks:
       - "Performing Test C_COMPILER_SUPPORTS_WFORMAT_SIGNEDNESS"
     directories:
-      source: "/home/g/zephyrproject/zephyr/samples/ESP32_C3_SCD41/build/CMakeFiles/CMakeScratch/TryCompile-XfoEIk"
-      binary: "/home/g/zephyrproject/zephyr/samples/ESP32_C3_SCD41/build/CMakeFiles/CMakeScratch/TryCompile-XfoEIk"
+      source: "/home/g/zephyrproject/zephyr/samples/ESP32_C3_SCD41/build/CMakeFiles/CMakeScratch/TryCompile-ooyJZu"
+      binary: "/home/g/zephyrproject/zephyr/samples/ESP32_C3_SCD41/build/CMakeFiles/CMakeScratch/TryCompile-ooyJZu"
     cmakeVariables:
       CMAKE_C_FLAGS: ""
       CMAKE_C_FLAGS_DEBUG: "-g"
@@ -105,11 +105,11 @@ events:
       variable: "C_COMPILER_SUPPORTS_WFORMAT_SIGNEDNESS"
       cached: true
       stdout: |
-        Change Dir: '/home/g/zephyrproject/zephyr/samples/ESP32_C3_SCD41/build/CMakeFiles/CMakeScratch/TryCompile-XfoEIk'
+        Change Dir: '/home/g/zephyrproject/zephyr/samples/ESP32_C3_SCD41/build/CMakeFiles/CMakeScratch/TryCompile-ooyJZu'
         
-        Run Build Command(s): /usr/bin/ninja -v cmTC_2564b
-        [1/2] /home/g/zephyr-sdk-1.0.1/gnu/riscv64-zephyr-elf/bin/riscv64-zephyr-elf-gcc -DC_COMPILER_SUPPORTS_WFORMAT_SIGNEDNESS  -nostartfiles -nostdlib -isystem "/home/g/zephyr-sdk-1.0.1/gnu/riscv64-zephyr-elf/bin/../lib/gcc/riscv64-zephyr-elf/14.3.0/include" -isystem "/home/g/zephyr-sdk-1.0.1/gnu/riscv64-zephyr-elf/bin/../lib/gcc/riscv64-zephyr-elf/14.3.0/include" -Wl,--unresolved-symbols=ignore-in-object-files -Wl,--entry=0 -fuse-ld=bfd -std=c99   -Wformat-signedness -o CMakeFiles/cmTC_2564b.dir/src.c.obj -c /home/g/zephyrproject/zephyr/samples/ESP32_C3_SCD41/build/CMakeFiles/CMakeScratch/TryCompile-XfoEIk/src.c
-        [2/2] : && /home/g/zephyr-sdk-1.0.1/gnu/riscv64-zephyr-elf/bin/riscv64-zephyr-elf-gcc -nostartfiles -nostdlib -isystem "/home/g/zephyr-sdk-1.0.1/gnu/riscv64-zephyr-elf/bin/../lib/gcc/riscv64-zephyr-elf/14.3.0/include" -isystem "/home/g/zephyr-sdk-1.0.1/gnu/riscv64-zephyr-elf/bin/../lib/gcc/riscv64-zephyr-elf/14.3.0/include" -Wl,--unresolved-symbols=ignore-in-object-files -Wl,--entry=0 -fuse-ld=bfd  CMakeFiles/cmTC_2564b.dir/src.c.obj -o cmTC_2564b   && :
+        Run Build Command(s): /usr/bin/ninja -v cmTC_72025
+        [1/2] /home/g/zephyr-sdk-1.0.1/gnu/riscv64-zephyr-elf/bin/riscv64-zephyr-elf-gcc -DC_COMPILER_SUPPORTS_WFORMAT_SIGNEDNESS  -nostartfiles -nostdlib -isystem "/home/g/zephyr-sdk-1.0.1/gnu/riscv64-zephyr-elf/bin/../lib/gcc/riscv64-zephyr-elf/14.3.0/include" -isystem "/home/g/zephyr-sdk-1.0.1/gnu/riscv64-zephyr-elf/bin/../lib/gcc/riscv64-zephyr-elf/14.3.0/include" -Wl,--unresolved-symbols=ignore-in-object-files -Wl,--entry=0 -fuse-ld=bfd -std=c99   -Wformat-signedness -o CMakeFiles/cmTC_72025.dir/src.c.obj -c /home/g/zephyrproject/zephyr/samples/ESP32_C3_SCD41/build/CMakeFiles/CMakeScratch/TryCompile-ooyJZu/src.c
+        [2/2] : && /home/g/zephyr-sdk-1.0.1/gnu/riscv64-zephyr-elf/bin/riscv64-zephyr-elf-gcc -nostartfiles -nostdlib -isystem "/home/g/zephyr-sdk-1.0.1/gnu/riscv64-zephyr-elf/bin/../lib/gcc/riscv64-zephyr-elf/14.3.0/include" -isystem "/home/g/zephyr-sdk-1.0.1/gnu/riscv64-zephyr-elf/bin/../lib/gcc/riscv64-zephyr-elf/14.3.0/include" -Wl,--unresolved-symbols=ignore-in-object-files -Wl,--entry=0 -fuse-ld=bfd  CMakeFiles/cmTC_72025.dir/src.c.obj -o cmTC_72025   && :
         
       exitCode: 0
 ...

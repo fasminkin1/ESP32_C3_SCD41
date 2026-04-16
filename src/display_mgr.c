@@ -1,6 +1,7 @@
 #include "display_mgr.h"
 #include "app_config.h"
 #include "sensors.h"
+#include "ble_mgr.h"
 #include <zephyr/logging/log.h>
 #include <zephyr/display/cfb.h>
 #include <zephyr/drivers/display.h>
@@ -12,9 +13,15 @@ const struct device *display = DEVICE_DT_GET(DT_CHOSEN(zephyr_display));
 
 int display_mgr_init(void)
 {
-	if (!device_is_ready(display)) return -ENODEV;
-	if (display_set_pixel_format(display, PIXEL_FORMAT_MONO10) < 0) return -EIO;
-	if (cfb_framebuffer_init(display)) return -EIO;
+	if (!device_is_ready(display)) {
+		return -ENODEV;
+	}
+	if (display_set_pixel_format(display, PIXEL_FORMAT_MONO10) < 0) {
+		return -EIO;
+	}
+	if (cfb_framebuffer_init(display)) {
+		return -EIO;
+	}
 
 	cfb_framebuffer_clear(display, true);
 	cfb_framebuffer_set_font(display, 0);
@@ -61,12 +68,16 @@ void display_mgr_update(void)
 	const char *label = "";
 	bool shown = false;
 	bool ru = config.lang_ru;
+	enum ble_status ble_st = ble_mgr_get_status();
+	const char *ble_str = (ble_st == BLE_STATUS_CONNECTED)    ? "BT:OK"
+			      : (ble_st == BLE_STATUS_CONNECTING) ? "BT:.."
+								  : "BT:--";
 
 	k_mutex_lock(&config_mutex, K_FOREVER);
 
-	/* Total pages: 5 metrics + 1 status screen = 6 */
-	for (int i = 0; i < 6; i++) {
-		uint8_t current = (page_idx + i) % 6;
+	/* Total pages: 5 metrics + 1 sensor status + 1 BLE status = 7 */
+	for (int i = 0; i < 7; i++) {
+		uint8_t current = (page_idx + i) % 7;
 
 		cfb_framebuffer_clear(display, false);
 
@@ -82,7 +93,7 @@ void display_mgr_update(void)
 				break;
 			case 1:
 				if (config.measure_temp) {
-					label = "t °C";
+					label = "t C";
 					snprintf(val_buf, sizeof(val_buf), "%.2f", last_data.temp);
 					shown = true;
 				}
@@ -109,23 +120,31 @@ void display_mgr_update(void)
 				}
 				break;
 			}
-			
+
 			if (shown) {
 				/* Back to standard coordinates */
 				cfb_print(display, (char *)label, 0, 0);
 				cfb_print(display, val_buf, 0, 20);
 			}
-		} else {
+		} else if (current == 5) {
 			/* Status screen Page */
 			const char *status = sensors_get_status_word();
 			cfb_print(display, ru ? "ВОЗД:" : "AIR:", 0, 0);
 			cfb_print(display, (char *)status, 0, 20);
 			shown = true;
+		} else if (current == 6) {
+			/* BLE Status Page */
+			const char *st_desc = (ble_st == BLE_STATUS_CONNECTED)    ? (ru ? "СВЯЗЬ: OK" : "LINK: OK")
+					      : (ble_st == BLE_STATUS_CONNECTING) ? (ru ? "ПОИСК.." : "WAIT..")
+									  : (ru ? "ОТКЛЮЧ" : "DISCONN");
+			cfb_print(display, "BLE:", 0, 0);
+			cfb_print(display, (char *)st_desc, 0, 20);
+			shown = true;
 		}
 
 		if (shown) {
 			cfb_framebuffer_finalize(display);
-			page_idx = (current + 1) % 6;
+			page_idx = (current + 1) % 7;
 			break;
 		}
 	}

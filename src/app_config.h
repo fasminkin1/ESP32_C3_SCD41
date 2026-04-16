@@ -4,17 +4,17 @@
 #include <zephyr/kernel.h>
 #include <stdbool.h>
 
-#define APP_VERSION "v1.0.2"
+#define APP_VERSION "v1.0.4"
 
 /* Comfort Ranges */
-#define RANGE_CO2_MAX    1500
-#define RANGE_CO2_MIN    350
-#define RANGE_TEMP_MAX   35.0
-#define RANGE_TEMP_MIN   15.0
-#define RANGE_HUM_MAX    75.0
-#define RANGE_HUM_MIN    25.0
-#define RANGE_VPD_MAX    2.0
-#define RANGE_VPD_MIN    0.4
+#define RANGE_CO2_MAX  1500
+#define RANGE_CO2_MIN  350
+#define RANGE_TEMP_MAX 35.0
+#define RANGE_TEMP_MIN 15.0
+#define RANGE_HUM_MAX  75.0
+#define RANGE_HUM_MIN  25.0
+#define RANGE_VPD_MAX  2.0
+#define RANGE_VPD_MIN  0.4
 
 /* Global configuration state */
 struct app_config {
@@ -26,7 +26,7 @@ struct app_config {
 	bool measure_vpd;
 	bool active;
 	bool log_to_console;
-	bool lang_ru;  /* Language toggle: false = EN, true = RU */
+	bool lang_ru;      /* Language toggle: false = EN, true = RU */
 	int32_t timer_min; /* Minutes until auto-stop. 0 = disabled */
 };
 

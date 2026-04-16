@@ -25,6 +25,7 @@ static struct bt_uuid_128 scd_cmd_uuid = BT_UUID_INIT_128(BT_UUID_SCD_CMD_VAL);
 
 static uint8_t telemetry_buf[128];
 static struct bt_conn *current_conn;
+static enum ble_status current_status = BLE_STATUS_DISCONNECTED;
 
 /* ---- Characteristic Handlers ---- */
 static ssize_t read_telemetry(struct bt_conn *conn, const struct bt_gatt_attr *attr,
@@ -106,10 +107,12 @@ static void connected(struct bt_conn *conn, uint8_t err)
 {
 	if (err) {
 		LOG_ERR("Connection failed (err %u)", err);
+		current_status = BLE_STATUS_DISCONNECTED;
 		return;
 	}
 	LOG_INF("Phone connected");
 	current_conn = bt_conn_ref(conn);
+	current_status = BLE_STATUS_CONNECTED;
 }
 
 static void disconnected(struct bt_conn *conn, uint8_t reason)
@@ -119,6 +122,10 @@ static void disconnected(struct bt_conn *conn, uint8_t reason)
 		bt_conn_unref(current_conn);
 		current_conn = NULL;
 	}
+	current_status = BLE_STATUS_DISCONNECTED;
+
+	/* Small delay to allow stack cleanup on some hardware */
+	k_sleep(K_MSEC(500));
 
 	/* Restart advertising so the device is visible again without power cycle */
 	int err = bt_le_adv_start(BT_LE_ADV_CONN_FAST_1, ad, ARRAY_SIZE(ad), sd, ARRAY_SIZE(sd));
@@ -126,6 +133,7 @@ static void disconnected(struct bt_conn *conn, uint8_t reason)
 		LOG_ERR("Advertising failed to restart (err %d)", err);
 	} else {
 		LOG_INF("Advertising restarted");
+		current_status = BLE_STATUS_CONNECTING; /* Waiting for connection */
 	}
 }
 
@@ -148,6 +156,7 @@ static void bt_ready(int err)
 		return;
 	}
 	LOG_INF("Advertising started as 'SCD41_Monitor'");
+	current_status = BLE_STATUS_CONNECTING;
 }
 
 int ble_mgr_init(void)
@@ -170,4 +179,9 @@ void ble_mgr_send_telemetry(void)
 	
 	/* Update advertising data so CO2 is visible without connection */
 	update_ad_data();
+}
+
+enum ble_status ble_mgr_get_status(void)
+{
+	return current_status;
 }
