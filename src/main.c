@@ -44,14 +44,15 @@ int main(void)
 	LOG_INF("System ready. Bluetooth advertising...");
 
 	int64_t last_timer_tick = k_uptime_get();
+	int64_t last_sensor_fetch = 0;
 
 	while (1) {
-		uint32_t sleep_ms;
+		uint32_t conf_interval_ms;
 		bool is_active;
 		
 		k_mutex_lock(&config_mutex, K_FOREVER);
 		is_active = config.active;
-		sleep_ms = config.interval_ms;
+		conf_interval_ms = config.interval_ms;
 		
 		/* Handle Timer Countdown */
 		if (config.timer_min > 0) {
@@ -72,17 +73,19 @@ int main(void)
 		}
 		k_mutex_unlock(&config_mutex);
 
-		if (is_active) {
+		int64_t now = k_uptime_get();
+		if (is_active && (now - last_sensor_fetch >= conf_interval_ms || last_sensor_fetch == 0)) {
 			err = sensors_fetch_all();
 			if (err == 0) {
 				ble_mgr_send_telemetry();
 			} else {
 				LOG_ERR("Sensor fetch failed: %d", err);
 			}
+			last_sensor_fetch = now;
 		}
 
 		display_mgr_update();
-		k_msleep(sleep_ms);
+		k_msleep(200); /* 5 FPS UI update for animations */
 	}
 
 	return 0;

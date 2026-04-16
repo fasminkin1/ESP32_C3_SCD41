@@ -27,6 +27,8 @@ static uint8_t telemetry_buf[128];
 static struct bt_conn *current_conn;
 static enum ble_status current_status = BLE_STATUS_DISCONNECTED;
 
+static struct k_work_delayable adv_work;
+
 /* ---- Characteristic Handlers ---- */
 static ssize_t read_telemetry(struct bt_conn *conn, const struct bt_gatt_attr *attr,
 			      void *buf, uint16_t len, uint16_t offset)
@@ -124,23 +126,30 @@ static void disconnected(struct bt_conn *conn, uint8_t reason)
 	}
 	current_status = BLE_STATUS_DISCONNECTED;
 
-	/* Small delay to allow stack cleanup on some hardware */
-	k_sleep(K_MSEC(500));
-
-	/* Restart advertising so the device is visible again without power cycle */
-	int err = bt_le_adv_start(BT_LE_ADV_CONN_FAST_1, ad, ARRAY_SIZE(ad), sd, ARRAY_SIZE(sd));
-	if (err) {
-		LOG_ERR("Advertising failed to restart (err %d)", err);
-	} else {
-		LOG_INF("Advertising restarted");
-		current_status = BLE_STATUS_CONNECTING; /* Waiting for connection */
-	}
+	/* Restart advertising after stack cleanup via delayable work */
+	k_work_reschedule(&adv_work, K_MSEC(250));
 }
 
 BT_CONN_CB_DEFINE(conn_callbacks) = {
 	.connected = connected,
 	.disconnected = disconnected,
 };
+
+static void adv_work_handler(struct k_work *work)
+{
+	int err = bt_le_adv_start(BT_LE_ADV_CONN_FAST_1, ad, ARRAY_SIZE(ad), sd, ARRAY_SIZE(sd));
+	if (err == -EALREADY) {
+		LOG_INF("Advertising is already running");
+		current_status = BLE_STATUS_CONNECTING;
+	} else if (err) {
+		LOG_ERR("Advertising failed to restart (err %d)", err);
+		/* Try again */
+		k_work_reschedule(&adv_work, K_MSEC(1000));
+	} else {
+		LOG_INF("Advertising restarted");
+		current_status = BLE_STATUS_CONNECTING;
+	}
+}
 
 static void bt_ready(int err)
 {
@@ -149,6 +158,8 @@ static void bt_ready(int err)
 		return;
 	}
 	LOG_INF("Bluetooth initialized and ready");
+
+	k_work_init_delayable(&adv_work, adv_work_handler);
 
 	err = bt_le_adv_start(BT_LE_ADV_CONN_FAST_1, ad, ARRAY_SIZE(ad), sd, ARRAY_SIZE(sd));
 	if (err) {

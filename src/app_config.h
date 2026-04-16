@@ -4,7 +4,7 @@
 #include <zephyr/kernel.h>
 #include <stdbool.h>
 
-#define APP_VERSION "v1.0.4"
+#define APP_VERSION "v1.0.5"
 
 /* Comfort Ranges */
 #define RANGE_CO2_MAX  1500
