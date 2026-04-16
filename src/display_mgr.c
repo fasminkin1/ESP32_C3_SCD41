@@ -40,7 +40,8 @@ void display_mgr_show_splash(void)
 
 	LOG_INF("Showing splash screen (version %s)", APP_VERSION);
 
-	for (int i = 0; i < 20; i++) {
+	/* Loop to create a 5 second splash delay (33 iterations * 150ms = 4950ms) */
+	for (int i = 0; i < 33; i++) {
 		cfb_framebuffer_clear(display, false);
 		cfb_print(display, "SCD41 Monitor", 0, 0);
 		cfb_print(display, (char *)APP_VERSION, 0, 20);
@@ -49,9 +50,9 @@ void display_mgr_show_splash(void)
 		snprintf(loading_str, sizeof(loading_str), "Loading%s",
 		         (i % 4 == 0) ? "" : (i % 4 == 1) ? "." : (i % 4 == 2) ? ".." : "...");
 
-		/* Simple scroll animation from right to left */
-		int x_offset = width - (i * 8);
-		if (x_offset < 0) x_offset = 0;
+		/* Gentle scrolling/bouncing effect for Loading... */
+		int cycle = i % 14;
+		int x_offset = (cycle < 7) ? cycle * 4 : (14 - cycle) * 4;
 
 		cfb_print(display, loading_str, x_offset, 40);
 		cfb_framebuffer_finalize(display);

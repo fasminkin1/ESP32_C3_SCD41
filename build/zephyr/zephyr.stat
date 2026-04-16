@@ -10,7 +10,7 @@ ELF Header:
   Version:                           0x1
   Entry point address:               0x40385444
   Start of program headers:          52 (bytes into file)
-  Start of section headers:          7908856 (bytes into file)
+  Start of section headers:          7908808 (bytes into file)
   Flags:                             0x1, RVC, soft-float ABI
   Size of this header:               52 (bytes)
   Size of program headers:           32 (bytes)
@@ -58,8 +58,8 @@ Section Headers:
   [34] .dram0.noinit     NOBITS          3fc92790 012a80 010264 00  WA  0   0 16
   [35] .dram0.bss        NOBITS          3fca2a00 012a80 004bf0 00  WA  0   0 16
   [36] .text_dummy       NOBITS          00012798 012a74 00d868 00  WA  0   0  1
-  [37] .text             PROGBITS        42000000 020000 042b5c 00 WAX  0   0 65536
-  [38] .flash.dummy      NOBITS          00062b5c 062b5c 00d4a4 00  WA  0   0  1
+  [37] .text             PROGBITS        42000000 020000 042b52 00 WAX  0   0 65536
+  [38] .flash.dummy      NOBITS          00062b52 062b52 00d4ae 00  WA  0   0  1
   [39] .flash.rodat[...] NOBITS          3c000000 072b14 050000 00  WA  0   0  1
   [40] .flash.rodata     PROGBITS        3c050000 062b60 00f9e8 00   A  0   0 16
   [41] initlevel         PROGBITS        3c05f9e8 072548 0000d0 00   A  0   0  4
@@ -86,17 +86,17 @@ Section Headers:
   [62] .flash.rodata_end PROGBITS        3c05ffc0 072b20 000000 00   W  0   0 16
   [63] .comment          PROGBITS        00000000 072b20 000076 01  MS  0   0  1
   [64] .debug_aranges    PROGBITS        00000000 072b98 007338 00      0   0  8
-  [65] .debug_info       PROGBITS        00000000 079ed0 422cad 00      0   0  1
-  [66] .debug_abbrev     PROGBITS        00000000 49cb7d 03c5ef 00      0   0  1
-  [67] .debug_line       PROGBITS        00000000 4d916c 137e16 00      0   0  1
-  [68] .debug_frame      PROGBITS        00000000 610f84 018448 00      0   0  4
-  [69] .debug_str        PROGBITS        00000000 6293cc 0408c6 01  MS  0   0  1
-  [70] .debug_loc        PROGBITS        00000000 669c92 0b5865 00      0   0  1
-  [71] .debug_ranges     PROGBITS        00000000 71f4f7 022b00 00      0   0  1
-  [72] .riscv.attributes RISCV_ATTRIBUTE 00000000 741ff7 000060 00      0   0  1
-  [73] .symtab           SYMTAB          00000000 742058 023e70 10     74 4036  4
-  [74] .strtab           STRTAB          00000000 765ec8 024ab9 00      0   0  1
-  [75] .shstrtab         STRTAB          00000000 78a981 000475 00      0   0  1
+  [65] .debug_info       PROGBITS        00000000 079ed0 422ca0 00      0   0  1
+  [66] .debug_abbrev     PROGBITS        00000000 49cb70 03c5ef 00      0   0  1
+  [67] .debug_line       PROGBITS        00000000 4d915f 137dff 00      0   0  1
+  [68] .debug_frame      PROGBITS        00000000 610f60 018444 00      0   0  4
+  [69] .debug_str        PROGBITS        00000000 6293a4 0408c6 01  MS  0   0  1
+  [70] .debug_loc        PROGBITS        00000000 669c6a 0b5886 00      0   0  1
+  [71] .debug_ranges     PROGBITS        00000000 71f4f0 022ad8 00      0   0  1
+  [72] .riscv.attributes RISCV_ATTRIBUTE 00000000 741fc8 000060 00      0   0  1
+  [73] .symtab           SYMTAB          00000000 742028 023e70 10     74 4036  4
+  [74] .strtab           STRTAB          00000000 765e98 024ab9 00      0   0  1
+  [75] .shstrtab         STRTAB          00000000 78a951 000475 00      0   0  1
 Key to Flags:
   W (write), A (alloc), X (execute), M (merge), S (strings), I (info),
   L (link order), O (extra OS processing required), G (group), T (TLS),
@@ -105,15 +105,15 @@ Key to Flags:
 
 Program Headers:
   Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align
-  RISCV_ATTRIBUT 0x741ff7 0x00000000 0x00000000 0x00060 0x00000 R   0x1
+  RISCV_ATTRIBUT 0x741fc8 0x00000000 0x00000000 0x00060 0x00000 R   0x1
   LOAD           0x0001f4 0x50000000 0x00000000 0x00024 0x00024 RW  0x4
   LOAD           0x000300 0x40380000 0x00000024 0x0fac0 0x0fac0 R E 0x100
   LOAD           0x00fdc0 0x3fc8fad0 0x0000fae4 0x02cb4 0x02cb4 RW  0x8
   LOAD           0x000000 0x00012798 0x00012798 0x00000 0x0d868 RW  0x1
   LOAD           0x000000 0x3fc92790 0x00012798 0x00000 0x10264 RW  0x10
   LOAD           0x000000 0x3fca2a00 0x00012798 0x00000 0x04bf0 RW  0x10
-  LOAD           0x020000 0x42000000 0x00020000 0x42b5c 0x42b5c RWE 0x10000
-  LOAD           0x000000 0x00062b5c 0x00062b5c 0x00000 0x0d4a4 RW  0x1
+  LOAD           0x020000 0x42000000 0x00020000 0x42b52 0x42b52 RWE 0x10000
+  LOAD           0x000000 0x00062b52 0x00062b52 0x00000 0x0d4ae RW  0x1
   LOAD           0x062b60 0x3c050000 0x00070000 0x0ffb4 0x0ffb4 RW  0x10
   LOAD           0x000000 0x3c000000 0x3c000000 0x00000 0x50000 RW  0x1
   LOAD           0x000000 0x3fc80000 0x3fc80000 0x00000 0x0fad0 RW  0x1
